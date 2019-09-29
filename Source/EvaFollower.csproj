@@ -38,20 +38,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyVersion.tt</DependentUpon>
     </Compile>
-    <Compile Include="EvaContainer.cs" />
-    <Compile Include="EvaController.cs" />
-    <Compile Include="EvaDebug.cs" />
     <Compile Include="ControlTypes\EvaFormation.cs" />
-    <Compile Include="EvaLogic.cs" />
-    <Compile Include="EvaAddonAddModule.cs" />
-    <Compile Include="EvaModule.cs" />
     <Compile Include="ControlTypes\EvaOrder.cs" />
-    <Compile Include="EvaOrderController.cs" />
     <Compile Include="ControlTypes\EvaPatrol.cs" />
     <Compile Include="ControlTypes\EvaStructs.cs" />
     <Compile Include="ControlTypes\IEvaControlType.cs" />
-    <Compile Include="EvaSettings.cs" />
-    <Compile Include="EvaTokenReader.cs" />
+    <Compile Include="Core\EvaAddonAddModule.cs" />
+    <Compile Include="Core\EvaContainer.cs" />
+    <Compile Include="Core\EvaController.cs" />
+    <Compile Include="Core\EvaDebug.cs" />
+    <Compile Include="Core\EvaLogic.cs" />
+    <Compile Include="Core\EvaModule.cs" />
+    <Compile Include="Core\EvaOrderController.cs" />
+    <Compile Include="Core\EvaSettings.cs" />
+    <Compile Include="Core\EvaTokenReader.cs" />
     <Compile Include="Extentions\KerbalEvaExtentions.cs" />
     <Compile Include="InstallChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

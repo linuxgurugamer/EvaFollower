@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using System.Diagnostics;
+using MSD.EvaFollower.ControlTypes;
 
 namespace MSD.EvaFollower
 {
@@ -40,7 +39,7 @@ namespace MSD.EvaFollower
             //EvaSettings.SaveConfiguration();
             EvaSettings.LoadConfiguration();
 
-            if (EvaSettings.displayDebugLines)
+            if (EvaSettings.DisplayDebugLines)
             {
                 InitializeDebugLine();
             }
@@ -121,12 +120,12 @@ namespace MSD.EvaFollower
         /// <param name="eva"></param>
         public void UpdateSelectionLine(EvaContainer container)
         {
-            if (!selectionLines.ContainsKey(container.flightID))
+            if (!selectionLines.ContainsKey(container.FlightId))
             {
                 CreateLine(container);
             }
 
-            var lineRenderer = selectionLines[container.flightID];
+            var lineRenderer = selectionLines[container.FlightId];
             SetSelectionLineProperties(container.EVA, lineRenderer);            
         }
 
@@ -173,7 +172,7 @@ namespace MSD.EvaFollower
         /// <param name="eva"></param>
         private void CreateLine(EvaContainer container)
         {
-            if (selectionLines.ContainsKey(container.flightID))
+            if (selectionLines.ContainsKey(container.FlightId))
             {
                 return;
             }
@@ -205,7 +204,7 @@ namespace MSD.EvaFollower
             //set properties
             SetSelectionLineProperties(container.EVA, lineRenderer);
 
-            selectionLines.Add(container.flightID, lineRenderer);
+            selectionLines.Add(container.FlightId, lineRenderer);
 
         }
 
@@ -289,7 +288,7 @@ namespace MSD.EvaFollower
                 angle += 0.1;
 
                 #region Update selected kerbals
-                foreach (EvaContainer eva in EvaController.instance.collection)
+                foreach (EvaContainer eva in EvaController.Instance.Collection)
                 {
                     if (!eva.Loaded)
                         continue;
@@ -333,13 +332,13 @@ namespace MSD.EvaFollower
 
                 #region Select Multiple Kerbals
 
-                if (Input.GetMouseButtonDown(EvaSettings.selectMouseButton)
-                    || Input.GetKeyDown(EvaSettings.selectKeyButton))
+                if (Input.GetMouseButtonDown(EvaSettings.SelectMouseButton)
+                    || Input.GetKeyDown(EvaSettings.SelectKeyButton))
                 {
                     _startClick = Input.mousePosition;
                 }
-                else if (Input.GetMouseButtonUp(EvaSettings.selectMouseButton)
-                    || Input.GetKeyUp(EvaSettings.selectKeyButton))
+                else if (Input.GetMouseButtonUp(EvaSettings.SelectMouseButton)
+                    || Input.GetKeyUp(EvaSettings.SelectKeyButton))
                 {
                     if (_selection.width < 0)
                     {
@@ -355,15 +354,15 @@ namespace MSD.EvaFollower
                     _startClick = -Vector3.one;
                 }
 
-                if (Input.GetMouseButton(EvaSettings.selectMouseButton) 
-                    || Input.GetKey(EvaSettings.selectKeyButton))
+                if (Input.GetMouseButton(EvaSettings.SelectMouseButton) 
+                    || Input.GetKey(EvaSettings.SelectKeyButton))
                 {
                     _selection = new Rect(_startClick.x, InvertY(_startClick.y),
                         Input.mousePosition.x - _startClick.x, InvertY(Input.mousePosition.y) - InvertY(_startClick.y));
                 }
 
-                if (Input.GetMouseButton(EvaSettings.selectMouseButton)
-                    || Input.GetKey(EvaSettings.selectKeyButton))
+                if (Input.GetMouseButton(EvaSettings.SelectMouseButton)
+                    || Input.GetKey(EvaSettings.SelectKeyButton))
                 {
                     if (_selection.width != 0 && _selection.height != 0)
                     {
@@ -380,7 +379,7 @@ namespace MSD.EvaFollower
 						}
 
                         //get the kerbals in the selection.
-                        foreach (EvaContainer container in EvaController.instance.collection)
+                        foreach (EvaContainer container in EvaController.Instance.Collection)
                         {                            
                             if (!container.Loaded)
                             {
@@ -404,7 +403,7 @@ namespace MSD.EvaFollower
                     }
 
                     #region targetVesselBySelection
-                    if (HighLogic.CurrentGame.Parameters.CustomParams<EvaFollowerMiscSettings>().targetVesselBySelection)
+                    if (HighLogic.CurrentGame.Parameters.CustomParams<EvaFollowerMiscSettings>().TargetVesselBySelection)
                     {
                         if (_selection.width != 0 && _selection.height != 0)
                         {
@@ -459,8 +458,8 @@ namespace MSD.EvaFollower
 
                 #region Select Single Kerbal
 
-                bool leftButton = Input.GetMouseButtonDown(EvaSettings.selectMouseButton) || Input.GetKeyDown(EvaSettings.selectKeyButton);
-                bool rightButton = Input.GetMouseButtonDown(EvaSettings.dispatchMouseButton) || Input.GetKeyDown(EvaSettings.dispatchKeyButton);
+                bool leftButton = Input.GetMouseButtonDown(EvaSettings.SelectMouseButton) || Input.GetKeyDown(EvaSettings.SelectKeyButton);
+                bool rightButton = Input.GetMouseButtonDown(EvaSettings.DispatchMouseButton) || Input.GetKeyDown(EvaSettings.DispatchKeyButton);
 
                 if (leftButton == false && rightButton == false)
                 {
@@ -484,7 +483,7 @@ namespace MSD.EvaFollower
 
                     if (evaCollision != null)
                     {
-                        EvaContainer eva = EvaController.instance.GetEva(evaCollision.vessel.id);
+                        EvaContainer eva = EvaController.Instance.GetEva(evaCollision.vessel.id);
 
                         if (!eva.Loaded)
                         {
@@ -507,7 +506,7 @@ namespace MSD.EvaFollower
                     var offset = (FlightGlobals.ActiveVessel).GetWorldPos3D();
                     var position = (Vector3d)hitInfo.point;
 
-                    foreach (var item in EvaController.instance.collection.ToArray())
+                    foreach (var item in EvaController.Instance.Collection.ToArray())
                     {
                         if (!item.Loaded)
                             return;
@@ -515,26 +514,26 @@ namespace MSD.EvaFollower
                         if (item.Selected)
                         {
                             //Remove current mode.
-                            if (item.mode == Mode.Patrol)
+                            if (item.Mode == Mode.Patrol)
                             {
                                 item.EndPatrol();
                             }
                             
-                            if (EvaSettings.displayDebugLines)
+                            if (EvaSettings.DisplayDebugLines)
                             {
                                 setLine(position, offset);
                             }
 
                             EvaDebug.DebugLog(string.Format("Target: {0}", position));
 
-                            item.Order(position, offset);
+                            item.SetOrder(position, offset);
                             item.Selected = false;
-                            item.mode = Mode.Order;
+                            item.Mode = Mode.Order;
 
                             _animatedCursor = true;
 
                             //destroy circle line
-                            DestroyLine(item.flightID);
+                            DestroyLine(item.FlightId);
                         }
                     }
                 }
@@ -562,7 +561,7 @@ namespace MSD.EvaFollower
         private void DeselectAllKerbals()
         {
             //deselect all kerbals.
-            foreach (EvaContainer eva in EvaController.instance.collection)
+            foreach (EvaContainer eva in EvaController.Instance.Collection)
             {
                 if (!eva.Loaded)
                     continue;
@@ -600,7 +599,7 @@ namespace MSD.EvaFollower
             _eva.Selected = false;
 
             //create circle line
-            DestroyLine(_eva.flightID);
+            DestroyLine(_eva.FlightId);
         }
 
 

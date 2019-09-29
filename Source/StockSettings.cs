@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using UnityEngine;
 using EvaFuel;
 
@@ -13,10 +10,10 @@ namespace MSD.EvaFollower
     [KSPAddon(KSPAddon.Startup.MainMenu, false)]
     public class EVAFuelGlobals : MonoBehaviour
     {
-        public static bool changeEVAPropellent;
+        public static bool ChangeEVAPropellent;
         void Start()
         {
-            changeEVAPropellent = false;
+            ChangeEVAPropellent = false;
         }
     }
 
@@ -58,7 +55,8 @@ namespace MSD.EvaFollower
 
         void Start()
         {
-            Log.Info("SelectEVAFuelType.Start");
+            Debug.Log("SelectEVAFuelType.Start");
+
             Instance = this;
             smallButtonStyle = new GUIStyle(HighLogic.Skin.button);
             smallButtonStyle.stretchHeight = false;
@@ -79,27 +77,7 @@ namespace MSD.EvaFollower
                 answer = Answer.inActive;
                 return;
             }
-#if false
-            DifficultyOptionsMenu dom = (DifficultyOptionsMenu)FindObjectOfType(typeof(DifficultyOptionsMenu));
-            List<GameObject> GameObjects = new List<GameObject>(FindObjectsOfType<GameObject>());
-            foreach (var go in GameObjects)
-                if (go.name == "GameDifficulty dialog handler")
-                {
-                    //   go.SetActive(false);
-                    var o = go.GetComponents<DialogGUIToggleButton>();
-                    foreach (var o1 in o)
-                        Log.Info("o1: " + o1.label);
-                    
-                }
-            
-            if (dom)
-            {
-                Log.Info("DifficultyOptionsMenu found");
-                dom.enabled = false;
 
-
-            }
-#endif
             Draw();
         }
 
@@ -109,10 +87,11 @@ namespace MSD.EvaFollower
         }
         public void Draw()
         {
-            if (MOD == null || MOD == "")
+            if (string.IsNullOrEmpty(MOD))
                 return;
 
-            Log.Info("SelectEVAFuelType.Draw");
+            Debug.Log("SelectEVAFuelType.Draw");
+
             if (allResources == null)
                 getAllResources();
 
@@ -130,33 +109,33 @@ namespace MSD.EvaFollower
         public List<String> getFuelResources(bool banned = false)
         {
             List<string> fr = new List<String>();
-            if (MOD == null || MOD == "")
-                return fr;
-            ConfigNode configFile = new ConfigNode();
-            ConfigNode configFileNode = new ConfigNode();
-            ConfigNode configDataNode;
-            
+            if (string.IsNullOrEmpty(MOD))
+            {
+              return fr;
+            }
+
             string fname = ROOT_PATH + "GameData/" + MOD + "/PluginData/fuelResources.cfg";
 
-            configFile = ConfigNode.Load(fname);
+            var configFile = ConfigNode.Load(fname);
             if (configFile != null)
             {
-                configFileNode = configFile.GetNode(EVAFUEL_NODE);
+              var configFileNode = configFile.GetNode(EVAFUEL_NODE);
 
-                if (configFileNode != null)
+              if (configFileNode != null)
                 {
-                    if (banned)
-                        configDataNode = configFileNode.GetNode(BANNED_RESOURCES);
-                    else
-                        configDataNode = configFileNode.GetNode(EVA_FUELRESOURCES);
-                    if (configDataNode != null)
-                        fr = configDataNode.GetValuesList("resource");
+                  ConfigNode configDataNode;
+                  configDataNode = configFileNode.GetNode(banned ? BANNED_RESOURCES : EVA_FUELRESOURCES);
+
+                  if (configDataNode != null)
+                  {
+                    fr = configDataNode.GetValuesList("resource");
+                  }
                 }
                 else
-                    Log.Error("NODENAME not found: " + EVAFUEL_NODE);
+                  Debug.LogError("NODENAME not found: " + EVAFUEL_NODE);
             }
             else
-                Log.Error("File not found: " + fname);
+              Debug.LogError("File not found: " + fname);
 
             return fr;
         }
@@ -315,16 +294,16 @@ namespace MSD.EvaFollower
 
 
         [GameParameters.CustomParameterUI("Show Debug Lines?")]
-        public bool displayDebugLinesSetting = false;
+        public bool DisplayDebugLinesSetting = false;
 
         [GameParameters.CustomParameterUI("Show Loading Kerbals?")]
-        public bool displayLoadingKerbals = true;
+        public bool DisplayLoadingKerbals = true;
 
         [GameParameters.CustomParameterUI("Enable Helmet Toggle?")]
-        public bool displayToggleHelmet = false;
+        public bool DisplayToggleHelmet = false;
 
         [GameParameters.CustomParameterUI("Target Vessel By Selection?")]
-        public bool targetVesselBySelection = true;
+        public bool TargetVesselBySelection = true;
 
 
         public override void SetDifficultyPreset(GameParameters.Preset preset)
@@ -333,8 +312,7 @@ namespace MSD.EvaFollower
         }
         public override bool Interactible(MemberInfo member, GameParameters parameters)
         {
-
-            return !EVAFuelGlobals.changeEVAPropellent;
+            return !EVAFuelGlobals.ChangeEVAPropellent;
         }
     }
 }

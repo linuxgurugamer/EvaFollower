@@ -1,25 +1,21 @@
 ﻿using System;
 
-namespace MSD.EvaFollower
+namespace MSD.EvaFollower.ControlTypes
 {
 	public class EvaWanderer : IEvaControlType
 	{     
-		static Random random = new Random();
+		static readonly Random _random = new Random();
 
 		internal Vector3d Position;
-		internal KerbalEVA eva;
-		internal float elapsed = 0;
-		internal string referenceBody;
+		internal KerbalEVA Eva;
+		internal float Elapsed = 0;
+		internal string ReferenceBody;
 
-		bool busy = false;
-
-		public EvaWanderer ()
-		{
-		}
+		bool _busy;
 
 		public void SetEva (KerbalEVA eva)
 		{
-			this.eva = eva;
+			this.Eva = eva;
 			GenerateNewPosition ();
 		}
 			
@@ -27,7 +23,7 @@ namespace MSD.EvaFollower
 		{
 			if (sqrDistance < 3.0)
 			{
-				busy = false;
+				_busy = false;
 				return true;
 			}
 			return false;
@@ -35,7 +31,7 @@ namespace MSD.EvaFollower
 
 		public Vector3d GetNextTarget ()
 		{
-			if (!busy) {
+			if (!_busy) {
 				GenerateNewPosition ();
 			}
 
@@ -48,23 +44,23 @@ namespace MSD.EvaFollower
 		}
 
 		private void GenerateNewPosition(){
-			Vector3d position = eva.vessel.CoMD;
+			Vector3d position = Eva.vessel.CoMD;
 
 			//Vector3d eastUnit = eva.vessel.mainBody.getRFrmVel(position).normalized; //uses the rotation of the body's frame to determine "east"
 			//Vector3d upUnit = (eva.vessel - eva.vessel.mainBody.position).normalized;
 			//Vector3d northUnit = Vector3d.Cross(upUnit, eastUnit); //north = up cross east
 
 			var offset = new Vector3d (
-				(((random.NextDouble () * 2 ) - 1) * 100),	
+				(_random.NextDouble () * 2 - 1) * 100,	
 				0,	
-				(((random.NextDouble () * 2 ) - 1) * 100)
+				(_random.NextDouble () * 2 - 1) * 100
 			);
 
-			var str = Environment.NewLine + eva.vessel.transform.up.ToString ();
-			str += Environment.NewLine + eva.vessel.transform.forward.ToString ();
-			str += Environment.NewLine + eva.vessel.transform.right.ToString ();
+			var str = Environment.NewLine + Eva.vessel.transform.up.ToString ();
+			str += Environment.NewLine + Eva.vessel.transform.forward.ToString ();
+			str += Environment.NewLine + Eva.vessel.transform.right.ToString ();
 
-			//EvaController.instance.debug = str;
+			EvaController.Instance.Debug = str;
 
 			Position = position;
 			Position += offset;
@@ -72,9 +68,9 @@ namespace MSD.EvaFollower
 
 		private void SetReferenceBody()
 		{
-			if (this.referenceBody == "None")
+			if (this.ReferenceBody == "None")
 			{
-				this.referenceBody = FlightGlobals.ActiveVessel.mainBody.bodyName;
+				this.ReferenceBody = FlightGlobals.ActiveVessel.mainBody.bodyName;
 			}
 		}
 

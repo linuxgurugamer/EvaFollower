@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace MSD.EvaFollower
+namespace MSD.EvaFollower.Detection
 {
 	interface IDetection
 	{

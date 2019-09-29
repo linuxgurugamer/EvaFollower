@@ -1,100 +1,100 @@
 ﻿using System;
-using System.Xml;
 
-namespace MSD.EvaFollower
+namespace MSD.EvaFollower.ControlTypes
 {
+  /// <summary>
+  /// The object responsible for Formations.
+  /// </summary>
+  class EvaFormation : IEvaControlType
+  {
+    private EvaContainer _leader;
+
     /// <summary>
-    /// The object responsible for Formations.
+    /// Get the next position to walk to. 
+    /// Formation should handle differents positions.
     /// </summary>
-    class EvaFormation : IEvaControlType
+    /// <returns></returns>
+    public Vector3d GetNextTarget()
     {
-        private EvaContainer leader;
+      if (_leader == null)
+      {
+        return Vector3d.zero;
+      }
 
-        /// <summary>
-        /// Get the next position to walk to. 
-        /// Formation should handle differents positions.
-        /// </summary>
-        /// <param name="move"></param>
-        /// <returns></returns>
-        public Vector3d GetNextTarget()
-        {           
-            if (leader == null)
-            {
-                return Vector3d.zero;
-            }
-            
-            //get the leader. 
-            var target = leader.EVA.vessel.GetWorldPos3D();        
-            
-            //update move vector.
-            return target;
-        }
+      //get the leader. 
+      var target = _leader.EVA.vessel.GetWorldPos3D();
 
-        public void SetLeader(EvaContainer leader)
-        {
-            this.leader = leader;
-        }
-
-        public string GetLeader()
-        {
-            if (leader != null)
-            {
-                if (leader.Loaded)
-                {
-                    return leader.EVA.name;
-                }
-            }
-
-            return "None";
-        }
-
-        /// <summary>
-        /// Check if the distance to the target is reached.
-        /// </summary>
-        /// <param name="sqrDistance"></param>
-        /// <returns></returns>
-        public bool CheckDistance(double sqrDistance)
-        {
-            if (sqrDistance < 3.0)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        
-        public string ToSave()
-        {
-            string leaderID = "null";
-            if(leader != null)
-            {
-                leaderID = leader.flightID.ToString();
-            }
-            return "(Leader:" + leaderID + ")";
-        }
-
-		public void FromSave(string formation)
-        {
-            try
-            {
-                //EvaDebug.DebugWarning("Formation.FromSave()");
-                formation = formation.Remove(0, 7); //Leader:
-                
-                if (formation != "null")
-                {
-                    Guid flightID = new Guid(formation);
-                    EvaContainer container = EvaController.instance.GetEva(flightID);
-
-                    if (container != null)
-                    {
-                        leader = container;
-                    }
-                }
-            }
-            catch
-            {
-                throw new Exception("[EFX] Formation.FromSave Failed.");
-            }  
-        }
+      //update move vector.
+      return target;
     }
+
+    public void SetLeader(EvaContainer leader)
+    {
+      this._leader = leader;
+    }
+
+    public string GetLeader()
+    {
+      if (_leader != null)
+      {
+        if (_leader.Loaded)
+        {
+          return _leader.EVA.name;
+        }
+      }
+
+      return "None";
+    }
+
+    /// <summary>
+    /// Check if the distance to the target is reached.
+    /// </summary>
+    /// <param name="sqrDistance"></param>
+    /// <returns></returns>
+    public bool CheckDistance(double sqrDistance)
+    {
+      if (sqrDistance < 3.0)
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+
+    public string ToSave()
+    {
+      string leaderId = "null";
+      if (_leader != null)
+      {
+        leaderId = _leader.FlightId.ToString();
+      }
+
+      return "(Leader:" + leaderId + ")";
+    }
+
+    public void FromSave(string formation)
+    {
+      try
+      {
+        //EvaDebug.DebugWarning("Formation.FromSave()");
+        formation = formation.Remove(0, 7); //Leader:
+
+        if (formation != "null")
+        {
+          Guid flightId = new Guid(formation);
+          EvaContainer container = EvaController.Instance.GetEva(flightId);
+
+          if (container != null)
+          {
+            _leader = container;
+          }
+        }
+      }
+      catch
+      {
+        throw new Exception("[EFX] Formation.FromSave Failed.");
+      }
+    }
+  }
 }

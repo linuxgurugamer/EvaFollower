@@ -1,15 +1,11 @@
 ﻿using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace MSD.EvaFollower
+namespace MSD.EvaFollower.Detection
 {
 	class DeadSpaceDetection : IDetection
 	{
-		public DeadSpaceDetection ()
-		{
-		}
-
 		public IEnumerable<Collider> GetComponents(Vector3 center, float radius){
 			
 			Collider[] hitColliders = Physics.OverlapSphere(center, radius);
@@ -33,7 +29,7 @@ namespace MSD.EvaFollower
 			}
 
 
-			EvaController.instance.debug = str;
+			EvaController.Instance.Debug = str;
 		}
 
 		public void Debug(){
