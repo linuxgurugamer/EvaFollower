@@ -34,7 +34,7 @@ namespace MSD.EvaFollower
         
         public void Start()
         {
-            EvaDebug.DebugWarning("EvaOrderController.Start()");
+            EvaDebug.DebugWarning("EvaOrderController.Start()");// NO_LOCALIZATION
 
             //save config.
             //EvaSettings.SaveConfiguration();
@@ -49,7 +49,7 @@ namespace MSD.EvaFollower
         }
         public void OnDestroy()
         {
-            EvaDebug.DebugWarning("EvaOrderController.OnDestroy()");
+            EvaDebug.DebugWarning("EvaOrderController.OnDestroy()");// NO_LOCALIZATION
         }
 
         private void InitializeCursor()
@@ -57,7 +57,7 @@ namespace MSD.EvaFollower
             _cursor = new GameObject().AddComponent<LineRenderer>();
 
             _cursor.useWorldSpace = false;
-            _cursor.material = new Material(Shader.Find("Legacy Shaders/Particles/Additive"));
+            _cursor.material = new Material(Shader.Find("Legacy Shaders/Particles/Additive")); // NO_LOCALIZATION
             //_cursor.SetWidth(0.05f, 0.05f);
             _cursor.startWidth = 0.05f;
             _cursor.endWidth = 0.05f;
@@ -488,7 +488,7 @@ namespace MSD.EvaFollower
 
                         if (!eva.Loaded)
                         {
-                            throw new Exception("[EFX] Impossibre!");
+                            throw new Exception("[EFX] Impossibre!"); // NO_LOCALIZATION
                         }
 
                         SelectEva(eva);
@@ -555,7 +555,7 @@ namespace MSD.EvaFollower
             }
             catch (Exception exp)
             {
-                EvaDebug.DebugWarning("[EFX] EvaOrderController: " + exp.Message);
+                EvaDebug.DebugWarning("[EFX] EvaOrderController: " + exp.Message); // NO_LOCALIZATION
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace MSD.EvaFollower
     public class EvaDebug : MonoBehaviour
     {
          private Rect pos;
-         private string content = "None";
+         private string content = Localizer.Format("#LOC_EVAFollower_1");
          private GUIStyle style = null;
  
          public void Start()
@@ -44,12 +45,12 @@ namespace MSD.EvaFollower
          {
              if (HighLogic.LoadedScene == GameScenes.FLIGHT)
              {
-				content = "Active Kerbals: " + EvaController.instance.collection.Count;
+				content = Localizer.Format("#LOC_EVAFollower_2") + EvaController.instance.collection.Count;
 				content += Environment.NewLine + EvaController.instance.debug;
              }
              else
              {
-                 content = "None";
+                 content = Localizer.Format("#LOC_EVAFollower_1");
              }
          }
 #else 
@@ -63,7 +64,7 @@ namespace MSD.EvaFollower
         {
             if (debugLogActive)
             {
-                Debug.Log("[EFX] " + text);
+                Debug.Log("[EFX] " + text);// NO_LOCALIZATION
             }
         }
 
@@ -71,7 +72,7 @@ namespace MSD.EvaFollower
         {
             if (debugLogActive)
             {
-                Debug.Log("[EFX] " + text, context);
+                Debug.Log("[EFX] " + text, context);// NO_LOCALIZATION
             }
         }
 
@@ -79,7 +80,7 @@ namespace MSD.EvaFollower
         {
             if (debugLogActive)
             {
-                Debug.LogWarning("[EFX] " + text);
+                Debug.LogWarning("[EFX] " + text);// NO_LOCALIZATION
             }
         }
 
@@ -87,7 +88,7 @@ namespace MSD.EvaFollower
         {
             if (debugLogActive)
             {
-                Debug.LogError("[EFX] " + text);
+                Debug.LogError("[EFX] " + text);// NO_LOCALIZATION
             }
         }
 
@@ -100,7 +101,7 @@ namespace MSD.EvaFollower
         public static void ProfileEnd(string name)
         {
             EndTimer();
-            EvaDebug.DebugWarning(string.Format("Profile: {0}: {1}ms", name, Elapsed));
+            EvaDebug.DebugWarning(string.Format( "Profile:" + " {0}" + ":" + " {1}" +Localizer.Format("#LOC_EVAFollower_3"), name, Elapsed));
         }
 
         public static float Elapsed = 0;

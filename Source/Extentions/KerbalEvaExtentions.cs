@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -59,7 +60,7 @@ namespace MSD.EvaFollower
             {
                 foreach (var item in eva.fsm.CurrentState.StateEvents)
                 {
-                    if (item.name == "Jump Start")
+                    if (item.name == Localizer.Format("#LOC_EVAFollower_17"))
                     {
                         eva.fsm.RunEvent(item);
                     }
@@ -78,7 +79,7 @@ namespace MSD.EvaFollower
             {
                 foreach (var item in eva.fsm.CurrentState.StateEvents)
                 {
-                    if (item.name == "Ladder Grab Start")
+                    if (item.name == Localizer.Format("#LOC_EVAFollower_18"))
                     {
                         eva.fsm.RunEvent(item);
                     }
@@ -97,7 +98,7 @@ namespace MSD.EvaFollower
             {
                 foreach (var item in eva.fsm.CurrentState.StateEvents)
                 {
-                    if (item.name == "Ladder Let Go")
+                    if (item.name == Localizer.Format("#LOC_EVAFollower_19"))
                     {
                         eva.fsm.RunEvent(item);
                     }
@@ -116,7 +117,7 @@ namespace MSD.EvaFollower
             {
                 foreach (var item in eva.fsm.CurrentState.StateEvents)
                 {
-                    if (item.name == "Pack Toggle")
+                    if (item.name == Localizer.Format("#LOC_EVAFollower_20"))
                     {
                         eva.fsm.RunEvent(item);
                     }
@@ -142,7 +143,7 @@ namespace MSD.EvaFollower
             {
                 foreach (KFSMEvent stateEvent in eva.fsm.CurrentState.StateEvents)
                 {
-                    if (stateEvent.name == "Recover Start")
+                    if (stateEvent.name == Localizer.Format("#LOC_EVAFollower_21"))
                     {
                         eva.fsm.RunEvent(stateEvent);
                         break;
@@ -154,7 +155,7 @@ namespace MSD.EvaFollower
 
         public static void Animate(this KerbalEVA eva, AnimationState state)
         {
-            string anim = "Idle";
+            string anim = Localizer.Format("#LOC_EVAFollower_22");
 
             switch (state)
             {
@@ -166,11 +167,11 @@ namespace MSD.EvaFollower
                 case AnimationState.Idle:
                     {
                         if (eva.part.WaterContact)
-                            anim = "swim_idle";
+                            anim = "swim_idle";// NO_LOCALIZATION
                         else if (eva.JetpackDeployed)
-                            anim = "jp_suspended";
+                            anim = "jp_suspended";// NO_LOCALIZATION
                         else
-                            anim = "idle";
+                            anim = "idle";// NO_LOCALIZATION
 
                     } break;
             }

@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Xml;
 
 namespace MSD.EvaFollower
@@ -45,7 +46,7 @@ namespace MSD.EvaFollower
                 }
             }
 
-            return "None";
+            return Localizer.Format("#LOC_EVAFollower_1");
         }
 
         /// <summary>
@@ -65,12 +66,12 @@ namespace MSD.EvaFollower
         
         public string ToSave()
         {
-            string leaderID = "null";
+            string leaderID = Localizer.Format("#LOC_EVAFollower_11");
             if(leader != null)
             {
                 leaderID = leader.flightID.ToString();
             }
-            return "(Leader:" + leaderID + ")";
+            return Localizer.Format("#LOC_EVAFollower_12") + leaderID + ")";
         }
 
 		public void FromSave(string formation)
@@ -80,7 +81,7 @@ namespace MSD.EvaFollower
                 //EvaDebug.DebugWarning("Formation.FromSave()");
                 formation = formation.Remove(0, 7); //Leader:
                 
-                if (formation != "null")
+                if (formation != Localizer.Format("#LOC_EVAFollower_11"))
                 {
                     Guid flightID = new Guid(formation);
                     EvaContainer container = EvaController.instance.GetEva(flightID);
@@ -93,7 +94,7 @@ namespace MSD.EvaFollower
             }
             catch
             {
-                throw new Exception("[EFX] Formation.FromSave Failed.");
+                throw new Exception("[EFX] Formation.FromSave Failed."); // NO_LOCALIZATION
             }  
         }
     }

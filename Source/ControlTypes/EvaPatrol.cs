@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace MSD.EvaFollower
         public bool AllowRunning { get; set; }
         public List<PatrolAction> actions = new List<PatrolAction>();
         public int currentPatrolPoint = 0;
-        public string referenceBody = "None";
+        public string referenceBody = Localizer.Format("#LOC_EVAFollower_1");
 
         private float delta = 0;
 
@@ -83,6 +84,7 @@ namespace MSD.EvaFollower
 
         }
 
+        #region NO_LOCALIZATION
         private void SetReferenceBody()
         {
             if (this.referenceBody == "None")
@@ -114,7 +116,7 @@ namespace MSD.EvaFollower
 			{
                 actionList += actions[i].ToSave();
 			}
-            actionList += "}";
+            actionList += "}"; 
 
             string[] args = new string[] {
                 AllowRunning.ToString(),
@@ -165,10 +167,10 @@ namespace MSD.EvaFollower
             }
             catch
             {
-                throw new Exception("[EFX] Patrol.FromSave Failed.");
+                throw new Exception("[EFX] Patrol.FromSave Failed.");// NO_LOCALIZATION
             }
         }
-
+        #endregion
 
         public void GenerateLine()
         {
@@ -258,7 +260,7 @@ namespace MSD.EvaFollower
 
         public override string ToString()
         {
-            return "position = " + position.ToString() + ", delay = " + delay + ", type = " + type.ToString();
+            return Localizer.Format("#LOC_EVAFollower_14") + position.ToString() + Localizer.Format("#LOC_EVAFollower_15") + delay + Localizer.Format("#LOC_EVAFollower_16") + type.ToString();
         }
     }
 

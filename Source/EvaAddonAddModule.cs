@@ -10,7 +10,7 @@ namespace MSD.EvaFollower
     {
         public void Awake()
         {
-
+            #region NO_LOCALIZATION
             EvaDebug.DebugLog("Loaded AddonAddModule.");
 
             var parts = new string[]
@@ -47,3 +47,4 @@ namespace MSD.EvaFollower
         }
     }
 }
+#endregion

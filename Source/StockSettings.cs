@@ -1,9 +1,11 @@
-﻿using EvaFuel;
+//using EvaFuel;
+using KSP.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using KSP_Log;
 
 namespace MSD.EvaFollower
 {
@@ -11,6 +13,8 @@ namespace MSD.EvaFollower
     public class EVAFuelGlobals : MonoBehaviour
     {
         public static bool changeEVAPropellent;
+        static public Log Log;
+
         void Start()
         {
             changeEVAPropellent = false;
@@ -19,6 +23,12 @@ namespace MSD.EvaFollower
                 buildModList();
                 modsFound = true;
             }
+#if DEBUG
+            Log = new Log("EVAFollower", Log.LEVEL.INFO);
+#else
+            Log = new Log("EVAFollower", Log.LEVEL.ERROR);
+#endif
+
         }
 
         bool modsFound = false;
@@ -68,14 +78,14 @@ namespace MSD.EvaFollower
 
         public static String ROOT_PATH;
         public static string MOD = null;
-        static string EVA_FUELRESOURCES = "FUELRESOURCES";
-        static string BANNED_RESOURCES = "BANNED";
+        static string EVA_FUELRESOURCES = "FUELRESOURCES"; // NO_LOCALIZATION
+        static string BANNED_RESOURCES = "BANNED"; // NO_LOCALIZATION
         public static String EVAFUEL_NODE = MOD;
 
 
         void Start()
         {
-            Log.Info("SelectEVAFuelType.Start");
+            EVAFuelGlobals.Log.Info("SelectEVAFuelType.Start"); // NO_LOCALIZATION
             Instance = this;
             smallButtonStyle = new GUIStyle(HighLogic.Skin.button);
             smallButtonStyle.stretchHeight = false;
@@ -85,7 +95,7 @@ namespace MSD.EvaFollower
             smallScrollBar.fixedWidth = 8f;
 
             // The follopwing
-            if (EVAFuelGlobals.hasMod("EvaFuel"))
+            if (EVAFuelGlobals.hasMod("EvaFuel")) // NO_LOCALIZATION
                 MOD = GetEvaFuel();
             else
                 MOD = null;
@@ -96,7 +106,8 @@ namespace MSD.EvaFollower
 
         string GetEvaFuel()
         {
-            return  Assembly.GetAssembly(typeof(EvaFuelManager)).GetName().Name;
+            return "";
+            //return  Assembly.GetAssembly(typeof(EvaFuelManager)).GetName().Name;
         }
         void OnGUI()
         {
@@ -112,14 +123,14 @@ namespace MSD.EvaFollower
 
         string setLabel()
         {
-            return "xxx";
+            return Localizer.Format("#LOC_EVAFollower_4");
         }
         public void Draw()
         {
             if (MOD == null || MOD == "")
                 return;
-
-            Log.Info("SelectEVAFuelType.Draw");
+            #region NO_LOCALIZATION
+            EVAFuelGlobals.Log.Info("SelectEVAFuelType.Draw");
             if (allResources == null)
                 getAllResources();
 
@@ -132,7 +143,7 @@ namespace MSD.EvaFollower
                                             GUILayout.ExpandWidth(true),
                                             GUILayout.ExpandHeight(true));
         }
-
+        #endregion
 
         public List<String> getFuelResources(bool banned = false)
         {
@@ -143,7 +154,7 @@ namespace MSD.EvaFollower
             ConfigNode configFileNode = new ConfigNode();
             ConfigNode configDataNode;
             
-            string fname = ROOT_PATH + "GameData/" + MOD + "/PluginData/fuelResources.cfg";
+            string fname = ROOT_PATH + "GameData/" + MOD + "/PluginData/fuelResources.cfg"; // NO_LOCALIZATION
 
             configFile = ConfigNode.Load(fname);
             if (configFile != null)
@@ -157,13 +168,13 @@ namespace MSD.EvaFollower
                     else
                         configDataNode = configFileNode.GetNode(EVA_FUELRESOURCES);
                     if (configDataNode != null)
-                        fr = configDataNode.GetValuesList("resource");
+                        fr = configDataNode.GetValuesList("resource"); // NO_LOCALIZATION
                 }
                 else
-                    Log.Error("NODENAME not found: " + EVAFUEL_NODE);
+                    EVAFuelGlobals.Log.Error("NODENAME not found: " + EVAFUEL_NODE); // NO_LOCALIZATION
             }
             else
-                Log.Error("File not found: " + fname);
+                EVAFuelGlobals.Log.Error("File not found: " + fname); // NO_LOCALIZATION
 
             return fr;
         }
@@ -187,14 +198,14 @@ namespace MSD.EvaFollower
                             allResourcesDisplayNames.Add(ar.displayName);
                         else
                             allResourcesDisplayNames.Add(ar.name);
-                        if (ar.name == HighLogic.CurrentGame.Parameters.CustomParams<EVAFuelSettings>().ShipPropellantName)
-                            curResIndex = cnt;
+                        //if (ar.name == HighLogic.CurrentGame.Parameters.CustomParams<EVAFuelSettings>().ShipPropellantName)
+                        //    curResIndex = cnt;
                         cnt++;
 
                     }
                     catch
                     {
-                        Log.Error("Can't find resource: " + s + " in allResources");
+                        EVAFuelGlobals.Log.Error("Can't find resource: " + s + " in allResources"); // NO_LOCALIZATION
                     }
                 }
             }
@@ -208,8 +219,8 @@ namespace MSD.EvaFollower
                         allResourcesDisplayNames.Add(ar.displayName);
                     else
                         allResourcesDisplayNames.Add(ar.name);
-                    if (ar.name == HighLogic.CurrentGame.Parameters.CustomParams<EVAFuelSettings>().ShipPropellantName)
-                        curResIndex = cnt;
+                    //if (ar.name == HighLogic.CurrentGame.Parameters.CustomParams<EVAFuelSettings>().ShipPropellantName)
+                    //    curResIndex = cnt;
                     cnt++;
                 }
 
@@ -238,14 +249,14 @@ namespace MSD.EvaFollower
 
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Select EVA Propellent from list below");
+            GUILayout.Label(Localizer.Format("#LOC_EVAFollower_5"));
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
-            var newallRes = GUILayout.Toggle(allRes, "All resources");
+            var newallRes = GUILayout.Toggle(allRes, Localizer.Format("#LOC_EVAFollower_6"));
             GUILayout.EndVertical();
             GUILayout.BeginVertical();
-            var newfuelRes = GUILayout.Toggle(fuelRes, "Fuel resources");
+            var newfuelRes = GUILayout.Toggle(fuelRes, Localizer.Format("#LOC_EVAFollower_7"));
             GUILayout.EndVertical();
             if (newfuelRes && allRes)
             {
@@ -268,7 +279,7 @@ namespace MSD.EvaFollower
 
             GUILayout.EndScrollView();
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("OK"))
+            if (GUILayout.Button(Localizer.Format("#LOC_EVAFollower_8")))
             {
                 answer = Answer.answered;
                 if (allRes)
@@ -296,7 +307,7 @@ namespace MSD.EvaFollower
                     }
                 }
             }
-            if (GUILayout.Button("Cancel"))
+            if (GUILayout.Button(Localizer.Format("#LOC_EVAFollower_9")))
                 answer = Answer.cancel;
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
@@ -315,8 +326,8 @@ namespace MSD.EvaFollower
     {
         public override string Title { get { return ""; } }
         public override GameParameters.GameMode GameMode { get { return GameParameters.GameMode.ANY; } }
-        public override string Section { get { return "EVA Follower"; } }
-        public override string DisplaySection { get { return "EVA Follower"; } }
+        public override string Section { get { return Localizer.Format("#LOC_EVAFollower_10"); } }
+        public override string DisplaySection { get { return Localizer.Format("#LOC_EVAFollower_10"); } }
         public override int SectionOrder { get { return 1; } }
         public override bool HasPresets { get { return false; } }
 

@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 
 namespace MSD.EvaFollower
 {
@@ -72,7 +73,7 @@ namespace MSD.EvaFollower
 
 		private void SetReferenceBody()
 		{
-			if (this.referenceBody == "None")
+			if (this.referenceBody == Localizer.Format("#LOC_EVAFollower_1"))
 			{
 				this.referenceBody = FlightGlobals.ActiveVessel.mainBody.bodyName;
 			}

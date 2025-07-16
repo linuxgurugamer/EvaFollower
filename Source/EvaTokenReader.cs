@@ -136,7 +136,7 @@ namespace MSD.EvaFollower
 
         private void ParseException(char found, char expected)
         {
-            throw new Exception("[EFX] ParseException: Expected: \'" + expected + "\'. Found:" + found);
+            throw new Exception("[EFX] ParseException: Expected: \'" + expected + "\'. Found:" + found); // NO_LOCALIZATION
         }
 
         internal void Consume()

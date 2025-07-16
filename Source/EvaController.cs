@@ -15,7 +15,7 @@ namespace MSD.EvaFollower
         public void Start()
         {
 
-            EvaDebug.DebugWarning("EvaController.Start()");
+            EvaDebug.DebugWarning("EvaController.Start()");// NO_LOCALIZATION
             //initialize the singleton.
             instance = this;
                      
@@ -35,9 +35,9 @@ namespace MSD.EvaFollower
 
         public void OnDestroy()
         {
-            EvaDebug.DebugWarning("EvaController.OnDestroy()");
-        
-            
+            EvaDebug.DebugWarning("EvaController.OnDestroy()");// NO_LOCALIZATION
+
+
             GameEvents.onPartPack.Remove(OnPartPack);
             GameEvents.onPartUnpack.Remove(OnPartUnpack);
         
@@ -80,8 +80,8 @@ namespace MSD.EvaFollower
             if (part.vessel.isEVA)
             {
                //save before pack
-                EvaDebug.DebugWarning("Pack: " + part.vessel.name);
-                                
+                EvaDebug.DebugWarning("Pack: " + part.vessel.name); // NO_LOCALIZATION
+
                 Unload(part.vessel, false);
             }
         }
@@ -91,7 +91,7 @@ namespace MSD.EvaFollower
             if (part.vessel.isEVA)
             {               
                 //save before pack
-                EvaDebug.DebugWarning("Unpack: " + part.vessel.name);
+                EvaDebug.DebugWarning("Unpack: " + part.vessel.name); // NO_LOCALIZATION
 
                 Load(part.vessel);
             }
@@ -141,15 +141,15 @@ namespace MSD.EvaFollower
         }
 */
         public void VesselDestroyed(Vessel report) {
-            EvaDebug.DebugLog("VesselDestroyed()");
-		if (report.isEVA) Unload(report, true);
+            EvaDebug.DebugLog("VesselDestroyed()"); // NO_LOCALIZATION
+            if (report.isEVA) Unload(report, true);
         }
 
         public void Load(Vessel vessel)
         {
             if (!vessel.isEVA)
             {
-                EvaDebug.DebugWarning("Tried loading a non eva.");
+                EvaDebug.DebugWarning("Tried loading a non eva."); // NO_LOCALIZATION
                 return;
             }
 
@@ -179,7 +179,7 @@ namespace MSD.EvaFollower
         {
             if (!vessel.isEVA)
             {
-                EvaDebug.DebugWarning("Tried unloading a non eva.");
+                EvaDebug.DebugWarning("Tried unloading a non eva."); // NO_LOCALIZATION
                 return;
             }
 
@@ -199,7 +199,7 @@ namespace MSD.EvaFollower
                     EvaSettings.SaveEva(item);
 
 
-                    EvaDebug.DebugLog("Remove EVA: (" + vessel.name + ")");
+                    EvaDebug.DebugLog("Remove EVA: (" + vessel.name + ")"); // NO_LOCALIZATION
                     collection.Remove(item);
                     break;
                 }

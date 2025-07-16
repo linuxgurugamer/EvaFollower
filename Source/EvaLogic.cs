@@ -72,7 +72,7 @@ namespace MSD.EvaFollower
                     if (eva == null)
                     {
                         //is this possible ?
-                        EvaDebug.DebugWarning("eva == null");
+                        EvaDebug.DebugWarning("eva == null"); // NO_LOCALIZATION
                         continue;
                     }
 
@@ -159,7 +159,7 @@ namespace MSD.EvaFollower
             }
             catch (Exception exp)
             {
-                EvaDebug.DebugWarning("[EFX] EvaLogic: " + exp.Message + ":" + exp.ToString());
+                EvaDebug.DebugWarning("[EFX] EvaLogic: " + exp.Message + ":" + exp.ToString());// NO_LOCALIZATION
             }
         }
     }

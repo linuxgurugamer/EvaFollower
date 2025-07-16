@@ -111,7 +111,7 @@ namespace MSD.EvaFollower
         {
             this.flightID = flightID;
             this.loaded = false;
-            removeRBAnchor = typeof(KerbalEVA).GetMethod("RemoveRBAnchor", BindingFlags.NonPublic | BindingFlags.Instance);
+            removeRBAnchor = typeof(KerbalEVA).GetMethod("RemoveRBAnchor", BindingFlags.NonPublic | BindingFlags.Instance); // NO_LOCALIZATION
         }
 
         public void Load(KerbalEVA eva)
@@ -127,12 +127,12 @@ namespace MSD.EvaFollower
             EvaModule module = (EvaModule)eva.GetComponent(typeof(EvaModule));
             module.Load(this);
 
-            EvaDebug.DebugWarning("EvaContainer.Load("+eva.name+")");
+            EvaDebug.DebugWarning("EvaContainer.Load("+eva.name+")"); // NO_LOCALIZATION
         }
 
         public void Unload()
         {
-            EvaDebug.DebugWarning("EvaContainer.Unload(" + eva.name + ")");
+            EvaDebug.DebugWarning("EvaContainer.Unload(" + eva.name + ")"); // NO_LOCALIZATION
             loaded = false;
         }
 
@@ -188,7 +188,7 @@ namespace MSD.EvaFollower
             }
             catch
             {
-                throw new Exception("[EFX] FromSave Failed.");
+                throw new Exception("[EFX] FromSave Failed."); // NO_LOCALIZATION
             }
         }
 
@@ -291,7 +291,7 @@ namespace MSD.EvaFollower
 			}
 
             //Error
-            throw new Exception("[EFX] New Mode Introduced");
+            throw new Exception("[EFX] New Mode Introduced"); // NO_LOCALIZATION
         }
 
         internal void ReleaseLadder()

@@ -1,4 +1,5 @@
-﻿using System.Xml;
+using KSP.Localization;
+using System.Xml;
 using System;
 
 namespace MSD.EvaFollower
@@ -37,7 +38,7 @@ namespace MSD.EvaFollower
 
         public override string ToString()
         {
-            return Position + ": offset(" + Offset + ")";
+            return Position + Localizer.Format("#LOC_EVAFollower_13") + Offset + ")";
         }
 
 		public string ToSave()

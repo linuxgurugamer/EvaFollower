@@ -9,10 +9,10 @@ namespace MSD.EvaFollower
 {
     class EvaSettings
     {
-
+        #region NO_LOCALIZATION
         public static readonly String ROOT_PATH = KSPUtil.ApplicationRootPath;
         private static readonly String CONFIG_BASE_FOLDER = ROOT_PATH + "GameData/";
-        private static String BASE_FOLDER = CONFIG_BASE_FOLDER + "EvaFollower/";
+        private static String BASE_FOLDER = CONFIG_BASE_FOLDER + "EvaFollower/"; 
         private static String NODENAME = "EvaFollower";
         private static String CFG_FILE = BASE_FOLDER + "PluginData/Settings.cfg";
 
@@ -224,3 +224,4 @@ namespace MSD.EvaFollower
         }
     }
 }
+#endregion
