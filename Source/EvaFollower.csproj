@@ -115,7 +115,7 @@ if $(ConfigurationName) == Release (
       <Private>False</Private>
     </Reference>
     <Reference Include="KSP_Log">
-      <HintPath>R:\KSP\KSP_1.12.5-dev\GameData\SpaceTuxLibrary\Plugins\KSP_Log.dll</HintPath>
+      <HintPath>$(KSPDIR)\GameData\SpaceTuxLibrary\Plugins\KSP_Log.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
